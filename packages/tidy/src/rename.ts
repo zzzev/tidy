@@ -14,7 +14,8 @@ type OutputT<T extends object, Spec extends RenameSpec<T>> = O.Merge<
     [NewKey in Exclude<Spec[keyof Spec], undefined>]: T[O.SelectKeys<
       Spec,
       NewKey
-    >];
+    > &
+      keyof T];
   }
 >;
 

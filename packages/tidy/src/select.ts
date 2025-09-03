@@ -7,7 +7,7 @@ type DropKey<T extends Datum> = keyof T extends string | number
   ? `-${keyof T}`
   : never;
 // type KeysInput1<T> = readonly (keyof T)[] | keyof T;
-export type KeysInput<T> =
+export type KeysInput<T extends Datum> =
   | (Key | ((items: T[]) => Key[]))[]
   | readonly DropKey<T>[]
   | readonly (keyof T)[]
