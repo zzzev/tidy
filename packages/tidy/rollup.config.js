@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import esbuild from 'rollup-plugin-esbuild';
 import dtsPlugin from 'rollup-plugin-dts';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 const root = process.platform === 'win32' ? path.resolve('/') : '/';
@@ -95,7 +96,22 @@ const dts = {
     format: 'es',
   },
   external,
-  plugins: [dtsPlugin({ respectExternal: true })],
+  plugins: [
+    dtsPlugin({ respectExternal: true }),
+copy({
+      targets: [
+        { 
+          src: 'src/index.test-d.ts', 
+          dest: 'dist',
+          rename: 'tidy.test-d.ts',
+          transform: (contents) => {
+            // Update import paths for the built types
+            return contents.toString().replace(/from ['"]\.\/index['"]/g, "from './tidy'");
+          }
+        }
+      ]
+    })
+  ],
 };
 
 const config = [cjs, esm, umd, umdMin, dts];

@@ -19,7 +19,8 @@
     "test": "jest",
     "test:build": "tsc --noEmit -p tsconfig.json",
     "test:watch": "jest --watchAll",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:types": "tsd"
   },
   "keywords": [
     "data",
@@ -39,7 +40,9 @@
     "ts-toolbelt": "^8.0.7"
   },
   "devDependencies": {
-    "rollup-plugin-dts": "^2.0.1"
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-dts": "^2.0.1",
+    "tsd": "^0.33.0"
   },
   "publishConfig": {
     "access": "public"
