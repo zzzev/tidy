@@ -102,7 +102,11 @@ export function fixedOrder<T>(
   };
 }
 
-function emptyAwareComparator(aInput: any, bInput: any, desc: boolean) {
+function emptyAwareComparator(
+  aInput: unknown,
+  bInput: unknown,
+  desc: boolean
+): number {
   // we swap order to get descending behavior
   let a = desc ? bInput : aInput;
   let b = desc ? aInput : bInput;
@@ -124,9 +128,10 @@ function emptyAwareComparator(aInput: any, bInput: any, desc: boolean) {
   }
 
   // descending is handled by swapping the a and b args at the start
-  return ascending(a, b);
+  // Type assertion is safe here since we've filtered out null/undefined above
+  return ascending(a as any, b as any);
 }
 
-function isEmpty(value: any) {
+function isEmpty(value: unknown): value is null | undefined {
   return value == null || value !== value /* NaN check */;
 }

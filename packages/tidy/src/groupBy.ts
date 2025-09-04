@@ -9,17 +9,17 @@ import { SingleOrArray, singleOrArray } from './helpers/singleOrArray';
 import { Grouped, GroupKey, TidyGroupExportFn, Key, TidyFn } from './types';
 
 /** [key, values] where values could be more nested entries */
-type EntriesOutput = [any, any][];
-type EntriesObjectOutput = { key: Key; values: any }[];
+type EntriesOutput<T = any> = [Key, T[]][];
+type EntriesObjectOutput<T = any> = { key: Key; values: T[] }[];
 
 /** nested objects: { [key]: values } */
-type ObjectOutput = Record<Key, any>;
+type ObjectOutput<T = any> = Record<Key, T[]>;
 
 /** nested keys: e.g. [key, key, key, [key, key, [key]]] */
-type KeysOutput = any[];
+type KeysOutput = Key[];
 
 /** nested values: e.g. [[value1_1, value1_2], [value2_1, value2_2]] */
-type ValuesOutput = any[];
+type ValuesOutput<T = any> = T[][];
 
 export type LevelSpec = {
   id?: string;
@@ -124,17 +124,17 @@ type GroupByOutput<
   NonNullable<Opts>['export'] extends 'grouped'
     ? Grouped<WithGroupKeys<T, O, Keys, Opts>>
     : NonNullable<Opts>['export'] extends 'entries'
-    ? EntriesOutput
+    ? EntriesOutput<WithGroupKeys<T, O, Keys, Opts>>
     : NonNullable<Opts>['export'] extends 'entries-object'
-    ? EntriesObjectOutput
+    ? EntriesObjectOutput<WithGroupKeys<T, O, Keys, Opts>>
     : NonNullable<Opts>['export'] extends 'object'
-    ? ObjectOutput
+    ? ObjectOutput<WithGroupKeys<T, O, Keys, Opts>>
     : NonNullable<Opts>['export'] extends 'map'
-    ? Map<any, any>
+    ? Map<Key, WithGroupKeys<T, O, Keys, Opts>[]>
     : NonNullable<Opts>['export'] extends 'keys'
     ? KeysOutput
     : NonNullable<Opts>['export'] extends 'values'
-    ? ValuesOutput
+    ? ValuesOutput<WithGroupKeys<T, O, Keys, Opts>>
     : NonNullable<Opts>['export'] extends 'levels'
     ? any
     : WithGroupKeys<T, O, Keys, Opts>[]

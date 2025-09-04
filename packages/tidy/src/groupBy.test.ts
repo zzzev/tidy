@@ -197,7 +197,7 @@ describe('groupBy / ungroup', () => {
         },
       });
       // make sure "null" and "undefined" aren't added as keys
-      expect(Object.keys(results.undefined.undefined[0])).toEqual([
+      expect(Object.keys((results as any).undefined.undefined[0])).toEqual([
         'str',
         'ing',
         'foo',
